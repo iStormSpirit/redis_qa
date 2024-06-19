@@ -1,11 +1,9 @@
-from multiprocessing import Process
-
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
 from src.api import endpoints
-from src.worker import worker  # Import to start worker thread
+# from multiprocessing import Process
 # from src.worker.worker import start_workers
 
 app = FastAPI(
@@ -31,19 +29,3 @@ if __name__ == "__main__":
     #
     # fastapi_process.join()
     # worker_process.join()
-
-"""
-  "status": "completed",
-  "total": 766,
-  "done": 766,
-  "start_time": "2024-06-18T22:52:51.768699",
-  "end_time": "2024-06-18T22:59:17.263211",
-  """
-"""
-  "status": "completed",
-  "total": 383,
-  "done": 383,
-  "start_time": "2024-06-18T23:51:20.162537",
-  "end_time": "2024-06-18T23:52:57.851479",
-  "task_list": [
-  """
