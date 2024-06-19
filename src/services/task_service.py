@@ -1,3 +1,4 @@
+from loguru import logger
 import uuid
 import datetime
 from src.repositories.redis_repository import RedisRepository
@@ -21,7 +22,9 @@ class TaskService:
     @staticmethod
     def get_arg_list(week_cnt: int, start_date: str = None) -> list:
         week_list = TaskService.get_week_list(week_cnt, start_date)
-        args_list = [{"date": week, "supid": idx} for idx, week in enumerate(week_list)]
+        sup_list = [x for x in range(37, 420)]
+        args_list = [{"date": d0, "supid": i} for d0 in week_list for i in sup_list]
+
         return args_list
 
     @staticmethod
@@ -29,6 +32,7 @@ class TaskService:
         task_id = str(uuid.uuid4())
         start_time = datetime.datetime.now().isoformat()
         args_list = TaskService.get_arg_list(week_cnt, start_date)
+        logger.debug(f"start taskid {task_id} for len: {len(args_list)}")
         task_status = {
             "status": "in-progress",
             "total": len(args_list),
@@ -54,6 +58,13 @@ class TaskService:
     def update_task_status(task_id: str, date: str, supid: int, status: str, start_time: str = None,
                            end_time: str = None):
         task_status = RedisRepository.get_task(task_id)
+        logger.info(f"update task {task_id}, "
+                    f"supid {supid} "
+                    f"date {date} "
+                    f"status {status} "
+                    f"start time {start_time} "
+                    f"end time {end_time}")
+
         if task_status:
             for t in task_status["task_list"]:
                 if t["date"] == date and t["supid"] == supid:

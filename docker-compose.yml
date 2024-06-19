@@ -1,12 +1,49 @@
 version: '3.8'
 
 services:
-  web:
+  web1:
     build: .
+    restart: always
     ports:
       - "8000:8000"
     depends_on:
       - redis
+  web2:
+    build: .
+    restart: always
+    depends_on:
+      - redis
+  web3:
+    build: .
+    restart: always
+    depends_on:
+      - redis
+  web4:
+    build: .
+    restart: always
+    depends_on:
+      - redis
+#  web5:
+#    build: .
+#    restart: always
+#    depends_on:
+#      - redis
+#  web6:
+#    build: .
+#    restart: always
+#    depends_on:
+#      - redis
+#  web7:
+#    build: .
+#    restart: always
+#    depends_on:
+#      - redis
+#  web8:
+#    build: .
+#    restart: always
+#    depends_on:
+#      - redis
+
   redis:
     image: "redis:latest"
     ports:
